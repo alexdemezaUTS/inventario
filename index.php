@@ -82,6 +82,7 @@ $estado = $_GET['estado'] ?? '';
                         id="nombre"
                         name="nombre"
                         maxlength="100"
+                        minlength="3"
                         placeholder="Ejemplo: Café"
                         required
                     >
