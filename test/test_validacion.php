@@ -30,8 +30,9 @@ foreach ($casosNombre as [$entrada, $esperado]) {
     }
 }
 
-echo "<br>";
-echo "<strong>Resumen de validación de nombres:</strong><br>\n";
-echo "Aceptadas: $aceptadas<br>\n";
-echo "Rechazadas: $rechazadas<br>\n";
-echo "Total evaluados: " . ($aceptadas + $rechazadas) . "<br>\n";
+echo "Pruebas de validarNombre()\n";
+echo "Prueba de nombre $textoEntrada pasó.\n";
+echo "\nResumen de validación de nombres:\n";
+echo "Aceptadas: $aceptadas\n";
+echo "Rechazadas: $rechazadas\n";
+echo "Total evaluados: " . ($aceptadas + $rechazadas) . "\n";
