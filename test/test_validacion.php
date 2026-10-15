@@ -1,38 +1,46 @@
 <?php
 require_once __DIR__ . '/../funciones.php';
 
-echo "<h3>Pruebas de validarNombre()</h3>";
+echo "Pruebas de validarNombre()\n\n";
 
 $casosNombre = [
     ["Teclado", true],
-    ["", false],       
-    ["     ", false],            
+    ["", false],
+    ["     ", false],
     ["Mouse", true],
 ];
 
 $aceptadas = 0;
 $rechazadas = 0;
+$fallidas = 0;
 
 foreach ($casosNombre as [$entrada, $esperado]) {
     $resultado = validarNombre($entrada);
-    $textoEntrada = $entrada === "" ? "'' (vacío)" : "'$entrada'";
-    
+    $textoEntrada = json_encode($entrada, JSON_UNESCAPED_UNICODE);
+
     if ($resultado === true) {
         $aceptadas++;
     } else {
         $rechazadas++;
     }
-    
-    if ($resultado === $esperado) {
-        echo "Prueba de nombre $textoEntrada pasó.<br>\n";
-    } else {
-        echo "Prueba de nombre $textoEntrada falló. Resultado esperado: " . ($esperado ? 'true' : 'false') . ", resultado obtenido: " . ($resultado ? 'true' : 'false') . "<br>\n";
+
+    $paso = $resultado === $esperado;
+
+    if (!$paso) {
+        $fallidas++;
     }
+
+    echo ($paso ? "PASS" : "FAIL")
+        . " | validarNombre($textoEntrada)"
+        . " | esperado: " . var_export($esperado, true)
+        . " | obtenido: " . var_export($resultado, true)
+        . "\n";
 }
 
-echo "Pruebas de validarNombre()\n";
-echo "Prueba de nombre $textoEntrada pasó.\n";
 echo "\nResumen de validación de nombres:\n";
 echo "Aceptadas: $aceptadas\n";
 echo "Rechazadas: $rechazadas\n";
-echo "Total evaluados: " . ($aceptadas + $rechazadas) . "\n";
+echo "Total evaluados: " . count($casosNombre) . "\n";
+echo "Pruebas fallidas: $fallidas\n";
+
+exit($fallidas > 0 ? 1 : 0);
