@@ -1,82 +1,59 @@
-
 <?php
 
-require_once __DIR__ . '/../funciones.php';
-
-$aceptadas = 0;
-$rechazadas = 0;
-$fallidas = 0;
-
-echo "Pruebas de validarNombre()\n\n";
+require_once _DIR_ . '/../src/validaciones.php';
 
 $casosNombre = [
     ["Teclado", true],
     ["", false],
-    ["     ", false],
+    ["      ", false],
     ["Mouse", true],
 ];
 
-foreach ($casosNombre as [$entrada, $esperado]) {
-    $resultado = validarNombre($entrada);
-    $textoEntrada = json_encode($entrada, JSON_UNESCAPED_UNICODE);
-
-    if ($resultado === true) {
-        $aceptadas++;
-    } else {
-        $rechazadas++;
-    }
-
-    $paso = $resultado === $esperado;
-
-    if (!$paso) {
-        $fallidas++;
-    }
-
-    echo ($paso ? "PASS" : "FAIL")
-        . " | validarNombre($textoEntrada)"
-        . " | esperado: " . var_export($esperado, true)
-        . " | obtenido: " . var_export($resultado, true)
-        . "\n";
-}
-
-echo "\nPruebas de validarCantidadProducto()\n\n";
-
 $casosCantidad = [
-    ["0", true],       // Cero permitido
-    ["5", true],       // Entero positivo permitido
-    ["-3", false],     // Negativo no permitido
-    ["2.5", false],    // Decimal no permitido
+    [10, true],
+    [0, true],
+    [-5, false],
+    ["abc", false],
 ];
 
-foreach ($casosCantidad as [$entrada, $esperado]) {
-    $resultado = validarCantidadProducto($entrada);
-    $textoEntrada = json_encode($entrada, JSON_UNESCAPED_UNICODE);
+$total = 0;
+$aprobadas = 0;
+$fallidas = 0;
 
-    if ($resultado === true) {
-        $aceptadas++;
+echo "Pasó las pruebas de esto:\n\n";
+
+echo "--- Validación de Nombre ---\n";
+foreach ($casosNombre as [$entrada, $esperado]) {
+    $total++;
+    $obtenido = validarNombreProducto($entrada);
+    $etiquetaEntrada = ($entrada === '' || trim((string)$entrada) === '') ? "\"$entrada\"" : $entrada;
+
+    if ($obtenido === $esperado) {
+        $aprobadas++;
+        echo "$etiquetaEntrada: paso\n";
     } else {
-        $rechazadas++;
-    }
-
-    $paso = $resultado === $esperado;
-
-    if (!$paso) {
         $fallidas++;
+        echo "$etiquetaEntrada: no paso (falló)\n";
     }
-
-    echo ($paso ? "PASS" : "FAIL")
-        . " | validarCantidadProducto($textoEntrada)"
-        . " | esperado: " . var_export($esperado, true)
-        . " | obtenido: " . var_export($resultado, true)
-        . "\n";
 }
 
-echo "\nResumen de validación de nombres y cantidades:\n";
-echo "Aceptadas: $aceptadas\n";
-echo "Rechazadas: $rechazadas\n";
-echo "Total evaluados: "
-    . (count($casosNombre) + count($casosCantidad))
-    . "\n";
-echo "Pruebas fallidas: $fallidas\n";
+echo "\n--- Validación de Cantidad ---\n";
+foreach ($casosCantidad as [$entrada, $esperado]) {
+    $total++;
+    $obtenido = validarCantidadProducto($entrada);
+    $etiquetaEntrada = is_string($entrada) ? "\"$entrada\"" : (string)$entrada;
 
-exit($fallidas > 0 ? 1 : 0);
+    if ($obtenido === $esperado) {
+        $aprobadas++;
+        echo "$etiquetaEntrada: paso\n";
+    } else {
+        $fallidas++;
+        echo "$etiquetaEntrada: no paso (falló)\n";
+    }
+}
+
+echo "\nPruebas realizadas: $total | Aprobadas: $aprobadas | Fallidas: $fallidas\n";
+
+if ($fallidas > 0) {
+    exit(1);
+}
