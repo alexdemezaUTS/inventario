@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__ . '/src/validaciones.php';
 require_once __DIR__ . '/config/conexion.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -7,19 +8,20 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$nombre = trim($_POST['nombre'] ?? '');
+$nombre = $_POST['nombre'] ?? '';
 $cantidad = $_POST['cantidad'] ?? '';
 
 if ($nombre === '' || $cantidad === '') {
     header('Location: index.php?estado=incompleto');
     exit;
 }
-if (mb_strlen($nombre) < 3) {
+if (!validarNombreProducto($nombre)) {
     header('Location: index.php?estado=nombre_invalido');
     exit;
 }
+$nombre = trim($nombre);
 
-if (!is_numeric($cantidad)) {
+if (!validarCantidadProducto($cantidad)) {
     header('Location: index.php?estado=cantidad_invalida');
     exit;
 }

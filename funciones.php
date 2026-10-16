@@ -1,22 +1,15 @@
 <?php
 
-/**
- * Funciones y validaciones generales del sistema
- */
+require_once __DIR__ . '/src/validaciones.php';
 
-/**
- * Valida que el nombre tenga al menos 3 caracteres.
- */
-function validarNombre(string $nombre): bool {
-    return mb_strlen(trim($nombre), 'UTF-8') >= 3;
+/** Valida nombres de entre 3 y 50 caracteres. */
+function validarNombre(string $nombre): bool
+{
+    return validarNombreProducto($nombre);
 }
 
-/**
- * Valida que la cantidad sea un número válido y mayor a 0 (no permite 0 ni números negativos).
- */
-function validarCantidad(mixed $cantidad): bool {
-    if (!is_numeric($cantidad)) {
-        return false;
-    }
-    return (int) $cantidad > 0;
+/** Valida cantidades enteras iguales o mayores que cero. */
+function validarCantidad(mixed $cantidad): bool
+{
+    return validarCantidadProducto($cantidad);
 }

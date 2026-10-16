@@ -104,7 +104,7 @@ La aplicación debe abrirse mediante el servidor de Laragon; abrir `index.php` d
 
 ### 6. Comprobar el funcionamiento
 
-1. Escribe el nombre de un producto y una cantidad entera, por ejemplo `Lápiz` y `10`.
+1. Escribe un nombre de entre 3 y 50 caracteres y una cantidad entera igual o mayor que cero, por ejemplo `Lápiz` y `10`. La cantidad `0` representa un producto sin existencia.
 2. Presiona **Registrar producto**.
 3. Comprueba que aparezca el mensaje de registro correcto y que el producto se muestre en la tabla.
 4. Opcionalmente, consulta la tabla `productos` en HeidiSQL para verificar que el registro se guardó.
@@ -125,3 +125,22 @@ La aplicación debe abrirse mediante el servidor de Laragon; abrir `index.php` d
 - **La base de datos o la tabla no existen:** crea `inventario` e importa el SQL sobre esa base de datos.
 - **Aparece `could not find driver`:** habilita la extensión PDO MySQL en la configuración de PHP que utiliza Laragon y reinicia el servicio web.
 - **La página no abre:** revisa que el servidor web esté activo, que la carpeta esté dentro de la raíz de documentos de Laragon y que la dirección y el puerto sean correctos.
+
+## Ejecutar las pruebas
+
+Desde la carpeta del proyecto, ejecuta:
+
+```powershell
+php tests/test_validaciones.php
+```
+
+El nombre principal es `test_validaciones.php`, en plural. También funcionan
+`php tests/test_validacion.php` y `php test/test_validacion.php` por compatibilidad.
+Las pruebas requieren PHP 8 o superior con la extensión mbstring y no necesitan
+una conexión a la base de datos.
+
+Si PHP no está en el PATH de tu terminal, usa la ruta de tu instalación de Laragon:
+
+```powershell
+& 'C:\laragon\bin\php\php-8.3.33-Win32-vs16-x64\php.exe' tests/test_validaciones.php
+```

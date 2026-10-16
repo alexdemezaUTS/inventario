@@ -1,12 +1,14 @@
 <?php
 
-require_once _DIR_ . '/../src/validaciones.php';
+require_once __DIR__ . '/../src/validaciones.php';
 
 $casosNombre = [
     ["Teclado", true],
     ["", false],
     ["      ", false],
     ["Mouse", true],
+    ["Ab", false],
+    [str_repeat("a", 10), false],
 ];
 
 $casosCantidad = [
@@ -14,13 +16,15 @@ $casosCantidad = [
     [0, true],
     [-5, false],
     ["abc", false],
+    ["10", true],
+    ["1.5", false],
 ];
 
 $total = 0;
 $aprobadas = 0;
 $fallidas = 0;
 
-echo "Pasó las pruebas de esto:\n\n";
+echo "Pruebas de validación:\n\n";
 
 echo "--- Validación de Nombre ---\n";
 foreach ($casosNombre as [$entrada, $esperado]) {
