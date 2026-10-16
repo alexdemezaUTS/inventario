@@ -8,7 +8,7 @@ $casosNombre = [
     ["      ", false],
     ["Mouse", true],
     ["Ab", false],
-    [str_repeat("a", 10), false],
+    [str_repeat("a", 51), false],
 ];
 
 $casosCantidad = [
